@@ -1,0 +1,3 @@
+# parciales
+
+parciales de práctica
