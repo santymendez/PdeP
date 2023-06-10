@@ -1,0 +1,7 @@
+cradle:
+  stack:
+    - path: "./src"
+      component: "pinos:lib"
+
+    - path: "./test"
+      component: "pinos:test:pinos-test"
