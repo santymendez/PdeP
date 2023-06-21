@@ -20,34 +20,32 @@ esMasRicoQue(tiaAgatha, Persona):-
     habitante(Persona),
     not(odia(mayordomo, Persona)).
 
-mato(Asesino, Victima):-
+asesinoAgatha(Asesino):-
     habitante(Asesino),
-    odia(Asesino, Victima),
-    not(esMasRicoQue(Victima, Asesino)).
+    odia(Asesino, tiaAgatha),
+    not(esMasRicoQue(tiaAgatha, Asesino)).
 
-/* mato(Asesino, tiaAgatha).
-Asesino = tiaAgatha ;
-false. */
+/*  asesinoAgatha(Asesino).
+    Asesino = tiaAgatha ;
+    false. 
+*/
 
 % Punto 2
 
 /*  odia(Persona, milhouse).
     false. 
-*/
 
-/*  odia(charles, Persona).
+    odia(charles, Persona).
     Persona = mayordomo ;
     false.
-*/
 
-/*  odia(Persona, tiaAgatha).
+    odia(Persona, tiaAgatha).
     Persona = tiaAgatha ;
     Persona = mayordomo ;
     false.
-*/
 
-/*  odia(Odiador, Odiado).
-    Odiador = Odiado, Odiado = tiaAgatha ; tiaAgatha se odia a si misma, es su propia odiadora
+    odia(Odiador, Odiado).
+    Odiador = Odiado, Odiado = tiaAgatha ; (tiaAgatha se odia a si misma)
     Odiador = tiaAgatha,
     Odiado = charles ;
     Odiador = mayordomo,
@@ -57,9 +55,8 @@ false. */
     Odiador = charles,
     Odiado = mayordomo ;
     false.
-*/
 
-/*  odia(mayordomo, Alguien).
+    odia(mayordomo, Alguien).
     Alguien = tiaAgatha ;
     Alguien = charles.
 */
