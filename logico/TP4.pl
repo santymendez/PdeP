@@ -9,8 +9,7 @@ odia(tiaAgatha, Persona):-
     Persona \= mayordomo.
 
 odia(mayordomo, Persona):-
-    habitante(Persona),
-    Persona \= mayordomo.
+    odia(tiaAgatha, Persona).
 
 odia(charles, Persona):-
     habitante(Persona),
@@ -32,7 +31,7 @@ asesinoAgatha(Asesino):-
 
 % Punto 2
 
-/*  odia(Persona, milhouse).
+/*  odia(Persona, _).
     false. 
 
     odia(charles, Persona).
@@ -56,7 +55,7 @@ asesinoAgatha(Asesino):-
     Odiado = mayordomo ;
     false.
 
-    odia(mayordomo, Alguien).
-    Alguien = tiaAgatha ;
-    Alguien = charles.
+    odia(mayordomo, _).
+    true ;
+    true.
 */
