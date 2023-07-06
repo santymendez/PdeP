@@ -34,7 +34,7 @@ votos(agosto29, 70, sistemas, 2021).
 % Otra Agrupacion
 
 votos(partidoInnovador, 3, sistemas, 2023).
-votos(partidoInnovador, 50, sistemas, 2023).
+votos(partidoInnovador, 1, mecanica, 2023).
 
 % Punto 1
 
@@ -101,41 +101,72 @@ menosVotosQueElPrimero(Partido, Votos, Anio, Carrera):-
 % Segunda parte
 
 realizoAccion(franjaNaranja, lucha(salarioDocente)).
-realizoAccion(franjaNaranja, gestionIndividual("Excepcion de correlativas", juanPerez, 2019)).
-realizoAccion(franjaNaranja, obra(2019)).
+realizoAccion(franjaNaranja, gestionIndividual("Excepcion de correlativas", tati, 2021)).
+realizoAccion(franjaNaranja, obra(2021)).
 realizoAccion(agosto29, lucha(salarioDocente)).
 realizoAccion(agosto29, lucha(boletoEstudiantil)).
+realizoAccion(partidoInnovador, actualizaBiblioteca(150)). % 150 es la cantidad de libros
 
 % Punto 1
 
-esDemagogica(Partido):-
+caracteristica(Partido, demagogica):-
     realizoAccion(Partido, _),
-    forall(realizoAccion(Partido, Accion), Accion = gestionIndividual(_, _, _)).
+    forall(realizoAccion(Partido, Accion), esGestionIndividual(Accion)).
 
 % Punto 2
 
-esBurocrata(Partido):-
+caracteristica(Partido, burocrata):-
     realizoAccion(Partido, _),
-    forall(realizoAccion(Partido, Accion), Accion \= lucha(_)).
+    forall(realizoAccion(Partido, Accion), not(participoEnLucha(Accion))).
 
 % Punto 3
 
-esGenuina(Accion):-
-    Accion = obra(Anio),
+caracteristica(Partido, transparente):-
+    realizoAccion(Partido, _),
+    forall(realizoAccion(Partido, Accion), esGenuina(Accion)).
+
+esGenuina(obra(Anio)):-
     not(elecciones(Anio)).
 
-esGenuina(Accion):-
-    Accion = gestionIndividual(_,Estudiante,Anio),
+esGenuina(gestionIndividual(_,Estudiante,Anio)):-
     estudiantes(_, Anio, Estudiante).
 
 esGenuina(lucha(_)).
 
-esTransparente(Partido):-
-    realizoAccion(Partido, _),
-    forall(realizoAccion(Partido, Accion), esGenuina(Accion)).
+esGenuina(actualizaBiblioteca(Cant)):-
+    Cant > 100.
 
+esGestionIndividual(gestionIndividual(_, _, _)).
+
+participoEnLucha(lucha(_)).
+
+% Punto 4
+
+cumpleMasDeUnaCaracteristica(Partido):-
+    caracteristica(Partido, _),
+    findall(Caracteristica, caracteristica(Partido, Caracteristica), ListaCar),
+    list_to_set(ListaCar, Caracteristicas),
+    length(Caracteristicas, CantCaracteristicas),
+    CantCaracteristicas > 1.
 
 % Tercera Parte
+
+% Consultas que reflejan las variantes
+
+/*
+?- huboFraude(2023).
+false.
+
+?- caracteristica(partidoInnovador, transparente).
+true.
+
+?- cumpleMasDeUnaCaracteristica(partidoInnovador).
+true ;
+true.
+
+*/
+
+% Inversibilidad
 
 /*
 Un ejemplo de un predicado inversible seria el de esTransparente.
