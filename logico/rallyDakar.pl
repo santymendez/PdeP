@@ -1,12 +1,3 @@
-/*
-
-auto(modelo)
-moto(anioDeFabricacion, suspensionesExtras)
-camion(items)
-cuatri(marca)
-
-*/
-
 ganador(1997,peterhansel,moto(1995, 1)).
 ganador(1998,peterhansel,moto(1998, 1)).
 ganador(2010,sainz,auto(touareg)).
@@ -71,11 +62,26 @@ pais(cavigliasso,argentina).
 
 % Punto 1
 
-peugeot(2008).
-peugeot(3008).
-mini(countryman).
-volkswagen(touareg).
-toyota(hilux).
+marca(auto(2008), peugeot).
+marca(auto(3008), peugeot).
+marca(auto(countryman), mini).
+marca(auto(touareg), volkswagen).
+marca(auto(hilux), toyota).
+
+marca(moto(Anio, _), ktm):-
+    Anio >= 2000.
+
+marca(moto(Anio, _), yamaha):-
+    Anio < 2000.
+
+marca(camion(Items), kamaz):-
+    tieneVodka(camion(Items)).
+
+marca(camion(Items), iveco):-
+    not(tieneVodka(camion(Items))).
+
+tieneVodka(camion(Items)):-
+    member(vodka, Items).
 
 % Punto 2
 
@@ -91,12 +97,19 @@ inspiraA(Piloto, Ganador):-
     not(ganador(_, Piloto, _)),
     sonDelMismoPais(Piloto, Ganador).
 
-sonDelMismoPais(Piloto1, Piloto2):-
-    pais(Piloto1, Pais),
-    pais(Piloto2, Pais).
-
 inspiraA(Piloto, Ganador):-
     ganador(Anio1, Piloto, _),
     ganador(Anio2, Ganador, _),
     Anio2 < Anio1,
     sonDelMismoPais(Piloto, Ganador).
+
+sonDelMismoPais(Piloto1, Piloto2):-
+    pais(Piloto1, Pais),
+    pais(Piloto2, Pais).
+
+% Punto 4
+
+marcaDeLaFortuna(Conductor, Marca):-
+    ganador(_, Conductor, _),
+    marca(_, Marca),
+    forall(ganador(_, Conductor, Vehiculo), marca(Vehiculo, Marca)).
