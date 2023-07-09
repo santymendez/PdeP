@@ -1,3 +1,5 @@
+% Punto 1
+
 herramienta(ana, circulo(50,3)).
 herramienta(ana, cuchara(40)).
 herramienta(beto, circulo(20,1)).
@@ -27,7 +29,9 @@ paraHacer(playStation, [silicio, hierro, plastico]).
 paraHacer(silicio, [tierra]).
 paraHacer(plastico, [huesos, presion]).
 
-tieneIngredientesPara(Jugador, Elemento):-
+% Punto 2
+
+tieneIngredientesPara(Elemento, Jugador):-
     tiene(Jugador, _),
     paraHacer(Elemento, _),
     forall(necesita(Elemento, Ingrediente), tiene(Jugador, Ingrediente)).
@@ -35,6 +39,8 @@ tieneIngredientesPara(Jugador, Elemento):-
 necesita(Elemento, Ingrediente):-
     paraHacer(Elemento, Ingredientes),
     member(Ingrediente, Ingredientes).
+
+% Punto 3
 
 estaVivo(agua).
 estaVivo(fuego).
@@ -52,3 +58,46 @@ estaVivo(Elemento):-
 algoEstaVivo(Elemento):-
     necesita(Elemento, Algo),
     estaVivo(Algo).
+
+% Punto 4
+
+puedeConstruir(Elemento, Jugador):-
+    tieneIngredientesPara(Elemento, Jugador),
+    tieneHerramientaPara(Elemento, Jugador).
+
+tieneHerramientaPara(Elemento, Jugador):-
+    herramienta(Jugador, libro(vida)),
+    estaVivo(Elemento).
+
+tieneHerramientaPara(Elemento, Jugador):-
+    herramienta(Jugador, libro(inerte)),
+    not(estaVivo(Elemento)).
+
+tieneHerramientaPara(Elemento, Jugador):-
+    herramienta(Jugador, Herramienta),
+    cantidadQueSoporta(Herramienta, Soporte),
+    cantidadQueNecesita(Elemento, Necesario),
+    Soporte >= Necesario.
+
+cantidadQueSoporta(cuchara(CM), Soporte):-
+    Soporte is CM/10.
+cantidadQueSoporta(circulo(Diametro, Niveles), Soporte):-
+    Soporte is Diametro/100 * Niveles.
+
+cantidadQueNecesita(Elemento, Necesario):-
+    paraHacer(Elemento, Ingredientes),
+    length(Ingredientes, Necesario).
+
+% Punto 5
+
+esTodopoderoso(Jugador):-
+    tiene(Jugador, _),
+    forall(tiene(Jugador, Elemento), primitivo(Elemento)),
+    forall(elementoQueNoTiene(Jugador, Elemento), tieneHerramientaPara(Elemento, Jugador)).
+
+primitivo(Elemento):-
+    not(paraHacer(Elemento, _)).
+
+elementoQueNoTiene(Jugador, Elemento):-
+    tiene(_, Elemento),
+    not(tiene(Jugador, Elemento)).
