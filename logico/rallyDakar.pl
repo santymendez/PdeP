@@ -69,47 +69,160 @@ marca(auto(touareg), volkswagen).
 marca(auto(hilux), toyota).
 
 marca(moto(Anio, _), ktm):-
-    Anio >= 2000.
+    esMotoActual(moto(Anio, _)).
 
 marca(moto(Anio, _), yamaha):-
-    Anio < 2000.
+    not(esMotoActual(moto(Anio, _))).
 
 marca(camion(Items), kamaz):-
-    tieneVodka(camion(Items)).
+    tiene(vodka, camion(Items)).
 
 marca(camion(Items), iveco):-
-    not(tieneVodka(camion(Items))).
+    not(tiene(vodka, camion(Items))).
 
-tieneVodka(camion(Items)):-
-    member(vodka, Items).
+marca(cuatri(Marca), Marca).
+
+tiene(Item, camion(Items)):-
+    member(Item, Items).
+
+esMotoActual(moto(AnioDeFabricacion, _)):-
+    AnioDeFabricacion >= 2000.
 
 % Punto 2
 
-ganadorReincidente(Piloto):-
-    ganador(Anio1, Piloto, _),
-    ganador(Anio2, Piloto, _),
+ganadorReincidente(Conductor):-
+    ganoEn(Anio1, Conductor),
+    ganoEn(Anio2, Conductor),
     Anio1 \= Anio2.
+
+ganoEn(Anio, Conductor):-
+    ganador(Anio, Conductor, _).
 
 % Punto 3
 
-inspiraA(Piloto, Ganador):-
+inspiraA(Conductor, Ganador):-
     ganador(_, Ganador, _),
-    not(ganador(_, Piloto, _)),
-    sonDelMismoPais(Piloto, Ganador).
+    not(ganador(_, Conductor, _)),
+    sonDelMismoPais(Conductor, Ganador).
 
-inspiraA(Piloto, Ganador):-
-    ganador(Anio1, Piloto, _),
-    ganador(Anio2, Ganador, _),
+inspiraA(Conductor, Ganador):-
+    ganoEn(Anio1, Conductor),
+    ganoEn(Anio2, Conductor),
     Anio2 < Anio1,
-    sonDelMismoPais(Piloto, Ganador).
+    sonDelMismoPais(Conductor, Ganador).
 
-sonDelMismoPais(Piloto1, Piloto2):-
-    pais(Piloto1, Pais),
-    pais(Piloto2, Pais).
+sonDelMismoPais(Conductor, OtroConductor):-
+    pais(Conductor, Pais),
+    pais(OtroConductor, Pais).
 
 % Punto 4
 
 marcaDeLaFortuna(Conductor, Marca):-
-    ganador(_, Conductor, _),
-    marca(_, Marca),
+    ganoEn(_, Conductor),
+    usoMarca(Conductor, Marca),
     forall(ganador(_, Conductor, Vehiculo), marca(Vehiculo, Marca)).
+
+usoMarca(Conductor, Marca):-
+    ganador(_, Conductor, Vehiculo),
+    marca(Vehiculo, Marca).
+
+% Punto 5
+
+heroePopular(Conductor):-
+    inspiraA(_, Conductor),
+    unicoSinVehiculoCaro(Conductor).
+
+unicoSinVehiculoCaro(Conductor):-
+    ganador(Anio, Conductor, _),
+    not(usoVehiculoCaro(Conductor, Anio)),
+    forall(ganadorDiferente(Anio, Conductor, OtroConductor), usoVehiculoCaro(OtroConductor, Anio)).
+
+ganadorDiferente(Anio, Conductor, OtroConductor):-
+    ganoEn(Anio, Conductor),
+    ganoEn(Anio, OtroConductor),
+    OtroConductor \= Conductor.
+
+usoVehiculoCaro(Conductor, Anio):-
+    ganador(Anio, Conductor, Vehiculo),
+    esCaro(Vehiculo).
+
+esCaro(Vehiculo):-
+    marca(Vehiculo, Marca),
+    esMarcaCara(Marca).
+
+esCaro(Vehiculo):-
+    suspensionesExtra(Vehiculo, Susp),
+    Susp >= 3.
+
+esMarcaCara(mini).
+esMarcaCara(toyota).
+esMarcaCara(iveco).
+
+suspensionesExtra(moto(_, Susp), Susp).
+suspensionesExtra(cuatri(_), 4).
+
+% Punto 6
+
+etapa(marDelPlata,santaRosa,60).
+etapa(santaRosa,sanRafael,290).
+etapa(sanRafael,sanJuan,208).
+etapa(sanJuan,chilecito,326).
+etapa(chilecito,fiambala,177).
+etapa(fiambala,copiapo,274).
+etapa(copiapo,antofagasta,477).
+etapa(antofagasta,iquique,557).
+etapa(iquique,arica,377).
+etapa(arica,arequipa,478).
+etapa(arequipa,nazca,246).
+etapa(nazca,pisco,276).
+etapa(pisco,lima,29).
+
+% a
+
+distancia(Locacion1, Locacion2, Dist):-
+    etapa(Locacion1, Locacion2, Dist).
+
+distancia(Locacion1, Locacion2, Dist):-
+    etapa(Locacion1, LocacionIntermedia, DistIntermedia),
+    distancia(LocacionIntermedia, Locacion2, DistFinal),
+    Dist is DistFinal + DistIntermedia.
+
+% b
+
+puedeRecorrerSinParar(Distancia, Vehiculo):-
+    limiteDistancia(Limite, Vehiculo),
+    Distancia =< Limite.
+
+limiteDistancia(2000, Vehiculo):-
+    esCaro(Vehiculo).
+
+limiteDistancia(1800, Vehiculo):-
+    esVehiculo(Vehiculo),
+    not(esCaro(Vehiculo)).
+
+limiteDistancia(Limite, camion(Items)):-
+    length(Items, Cant),
+    Limite is Cant * 1000.
+
+esVehiculo(Vehiculo):-
+    marca(Vehiculo, _).
+
+% c
+
+destinoMasLejano(Origen, Vehiculo, Destino):-
+    puedeLlegarSinParar(Origen, Destino, Vehiculo),
+    forall(destinoPosible(Vehiculo, Origen, Destino, AlgunDestino), estaMasCerca(AlgunDestino, Destino, Origen)).
+
+puedeLlegarSinParar(Origen, Destino, Vehiculo):-
+    distancia(Origen, Destino, Distancia),
+    puedeRecorrerSinParar(Distancia, Vehiculo).
+
+destinoPosible(Vehiculo, Origen, Destino, AlgunDestino):-
+    distancia(Origen, AlgunDestino, Distancia),
+    puedeRecorrerSinParar(Distancia, Vehiculo),
+    AlgunDestino \= Destino.
+
+estaMasCerca(DestinoCercano, Destino, Origen):-
+    distancia(Origen, Destino, Distancia1),
+    distancia(DestinoCercano, Destino, Distancia2),
+    Distancia2 =< Distancia1.
