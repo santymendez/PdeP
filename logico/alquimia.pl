@@ -20,6 +20,9 @@ tiene(cata, tierra).
 tiene(cata, agua).
 tiene(cata, aire).
 
+% Se dice que cata no tiene vapor, pero por el principio de universo cerrado, solo nos interesa lo que tiene,
+% lo que no tiene es desconocido.
+
 paraHacer(pasto, [agua, tierra]).
 paraHacer(hierro, [fuego, agua, tierra]).
 paraHacer(huesos, [pasto, agua]).
@@ -101,3 +104,14 @@ primitivo(Elemento):-
 elementoQueNoTiene(Jugador, Elemento):-
     tiene(_, Elemento),
     not(tiene(Jugador, Elemento)).
+
+% Punto 6
+
+quienGana(Jugador):-
+    cantQuePuedeConstruir(Jugador, CantMaxima),
+    forall(cantQuePuedeConstruir(_, Cantidad), CantMaxima >= Cantidad).
+
+cantQuePuedeConstruir(Jugador, Cantidad):-
+    puedeConstruir(_, Jugador),
+    findall(Elemento, puedeConstruir(Elemento, Jugador), Elementos),
+    length(Elementos, Cantidad).
