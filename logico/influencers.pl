@@ -89,3 +89,16 @@ publicoContenidoCon(Participante, Usuario):-
 publicoContenidoCon(Participante, Usuario):-
     publicacion(Usuario, _, stream(_)),
     Participante = Usuario.
+
+% Punto 6
+
+caminoALaFama(Usuario):-
+    publicoContenidoCon(Usuario, Influencer),
+    Influencer \= Usuario,
+    not(influencer(Usuario)),
+    influencer(Influencer).
+
+caminoALaFama(Usuario):-
+    publicoContenidoCon(Usuario, Otro),
+    Otro \= Usuario,
+    caminoALaFama(Otro).
