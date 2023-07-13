@@ -110,14 +110,10 @@ precioMenu(Restaurante, Precio):-
 
 precioMenu(Restaurante, Precio):-
     menu(Restaurante, pasos(_, PrecioIndicado, Vinos, Comensales)),
-    precioVinos(Vinos, PrecioVinos),
-    Precio is (PrecioIndicado + PrecioVinos) / Comensales.
-
-precioVinos([], 0).
-precioVinos([X|XS], PrecioVinos):-
-    precioVino(X, PrecioVino),
-    precioVinos(XS, Precio),
-    PrecioVinos is PrecioVino + Precio.
+    findall(PrecioVino, (member(Vino, Vinos), precioVino(Vino, PrecioVino)), PrecioVinos),
+    sumlist(PrecioVinos, PrecioTot),
+    %precioVinos(Vinos, PrecioVinos),
+    Precio is (PrecioIndicado + PrecioTot) / Comensales.
 
 precioVino(Vino, Precio):-
     vino(Vino, argentina, Precio).
