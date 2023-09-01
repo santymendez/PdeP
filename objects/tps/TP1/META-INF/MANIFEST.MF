@@ -1,10 +1,10 @@
 Manifest-Version: 1.0
-Automatic-Module-Name: peligroPorDistraccion
+Automatic-Module-Name: TP1
 Bundle-ManifestVersion: 2
-Bundle-Name: peligroPorDistraccion
+Bundle-Name: TP1
 Bundle-Vendor: My Company
 Bundle-Version: 1.0.0.qualifier
-Bundle-SymbolicName: peligroPorDistraccion; singleton:=true
+Bundle-SymbolicName: TP1; singleton:=true
 Bundle-ActivationPolicy: lazy
 Require-Bundle: com.ibm.icu,
  org.eclipse.xtext,
