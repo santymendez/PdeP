@@ -10,9 +10,13 @@ object paris {
 
 object buenosAires {
 	
-	// ver tema presidente
+	var presidente = "albertoFernandez"
 	
-	method recuerdo() = "mateConYerba"
+	var property recuerdo = "mateSinYerba"
+	
+	method presidente(nuevoPresidente){
+		presidente = nuevoPresidente
+	}
 	
 	method puedeIngresar(vehiculo) = vehiculo.esRapido()
 	
