@@ -7,20 +7,24 @@ object alambiqueVeloz {
 	method combustibleLleno() = combustible == 100
 	
 	method sufrirConsecuencias(){
-		combustible -= 5
+		0.max(combustible -= 5)
 	}
 }
 
 object portadorDeFamilia {
 	
-	var property tripulantes = 3
+	var tripulantes = 3
 	
-	method estaLleno() = tripulantes <= 4
+	method tripulantes(cantidad){
+		tripulantes = cantidad
+	}
+	
+	method estaLleno() = tripulantes >= 5
 	
 	method esRapido() = tripulantes <= 2
 	
 	method sufrirConsecuencias(){
-		tripulantes -= 1
+		1.max(tripulantes -= 1)			// no muere, baja del auto y se queda en la ciudad
 	}
 	
 }

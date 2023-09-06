@@ -9,11 +9,11 @@ object luke {
 	
 	method recuerdo() = recuerdo
 	
-	method lugaresVisitados() = lugaresVisitados
-	
 	method vehiculo(otroVehiculo){
 		vehiculo = otroVehiculo
 	}
+	
+	method lugaresVisitados() = lugaresVisitados
 	
 	method visitarPais(pais, vehiculoUtilizado){
 		if (pais.puedeIngresar(vehiculoUtilizado)){

@@ -10,13 +10,13 @@ object paris {
 
 object buenosAires {
 	
-	var presidente = "albertoFernandez"
-	
-	var property recuerdo = "mateSinYerba"
+	var presidente
 	
 	method presidente(nuevoPresidente){
 		presidente = nuevoPresidente
 	}
+	
+	method recuerdo() = if (presidente == "amanteDelMate") "mateConYerba" else "mateSinYerba"
 	
 	method puedeIngresar(vehiculo) = vehiculo.esRapido()
 	
