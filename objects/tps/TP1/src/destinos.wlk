@@ -4,7 +4,7 @@ object paris {
 	
 	method recuerdo() = "llaveroTorreEiffel"
 	
-	method puedeIngresar(vehiculo) = alambiqueVeloz.combustibleLleno()
+	method puedeIngresar(vehiculo) = vehiculo.combustibleLleno()
 	
 }
 
@@ -34,8 +34,8 @@ object lasVegas {
 	
 	var homenajeado = paris
 	
-	method homenajeado(pais){
-		homenajeado = pais
+	method homenajeado(destino){
+		homenajeado = destino
 	}
 	
 	method recuerdo() = homenajeado.recuerdo()

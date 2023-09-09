@@ -19,6 +19,8 @@ object portadorDeFamilia {
 		tripulantes = cantidad
 	}
 	
+	method combustibleLleno() = false
+	
 	method estaLleno() = tripulantes >= 5
 	
 	method esRapido() = tripulantes <= 2

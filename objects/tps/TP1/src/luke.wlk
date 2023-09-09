@@ -1,5 +1,5 @@
 import vehiculos.*
-import paises.*
+import destinos.*
 
 object luke {
 	
@@ -9,15 +9,15 @@ object luke {
 	
 	method recuerdo() = recuerdo
 	
-	method vehiculo(otroVehiculo){
-		vehiculo = otroVehiculo
+	method vehiculo(nuevoVehiculo){
+		vehiculo = nuevoVehiculo
 	}
 	
 	method lugaresVisitados() = lugaresVisitados
 	
-	method visitarPais(pais, vehiculoUtilizado){
-		if (pais.puedeIngresar(vehiculoUtilizado)){
-			recuerdo = pais.recuerdo()
+	method visitar(destino){
+		if (destino.puedeIngresar(vehiculo)){
+			recuerdo = destino.recuerdo()
 			lugaresVisitados += 1
 		    vehiculo.sufrirConsecuencias()
 		}
