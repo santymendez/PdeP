@@ -1,6 +1,6 @@
 class Mision {
 	
-	var tipoMision = normal
+	var tipoMision
 	
 	method cambiarTipoMision(nuevoTipo){
 		tipoMision = nuevoTipo

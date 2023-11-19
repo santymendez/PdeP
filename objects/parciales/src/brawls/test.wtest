@@ -1,0 +1,27 @@
+import personajes.*
+import misiones.*
+
+describe "santi es un arquero que quiere hacer una mision individual con bonus"{
+	
+	const santi = new Arquero(copas = 12000, agilidad = 50, rango = 100)
+	const mision1 = new Individual(dificultad = 5, personaje = santi, tipoMision = bonus)
+	
+	test "santi debe poder realizar la mision1"{
+		assert.that(mision1.puedeRealizarse())
+	}
+	
+	test "en la mision1 hay x copas en juego"{
+		assert.equals(11, mision1.copasFinales())
+	}
+	
+	test "la mision1 puede ser superada por santi"{
+		assert.that(mision1.puedeSerSuperada())
+	}
+	
+	test "si santi supera la mision 1, gana 11 copas, pasando a tener 12011 copas ganadas"{
+		mision1.realizarMision()
+		assert.equals(12011, santi.copas())
+	}
+	
+}
+
