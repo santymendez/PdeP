@@ -1,6 +1,39 @@
+import catar.*
 
-test "testX" {
-
-	assert.that(true)
-
+describe "catar"{
+	
+	const juan = new Cocinero(nombre = "juan", especialidad = new Pastelero(nivelDulzor = 100))
+	const santi = new Cocinero(nombre = "santi", especialidad = new Chef(caloriasMax = 1000))
+	const julian = new Cocinero(nombre = "julian", especialidad = new SousChef(caloriasMax = 1500))
+	
+	test "un pastelero calfica bien un plato sin pasarse del maximo"{
+		const brownie = new Postre(cocinero = "juan", color = 1)
+		
+		assert.equals(6, juan.catar(brownie))
+	}
+	
+	test "un pastelero calfica un plato sin pasarse del maximo"{
+		const bondiolaAlAzucar = new Principal(cocinero = "juan", azucar = 500, bonito = true)
+		
+		assert.equals(10, juan.catar(bondiolaAlAzucar))
+	}
+	
+	test "santi gana el torneo contra julian, si juan es el catador"{
+		const torneo = new Torneo()
+		torneo.agregarCatador(juan)
+		torneo.hacerParticiparACocinero(julian)
+		torneo.hacerParticiparACocinero(santi)
+		
+		assert.equals("santi", torneo.ganador())
+	}
+	
+	test "julian gana el torneo contra juan, si santi es el catador"{
+		const torneo = new Torneo()
+		torneo.agregarCatador(santi)
+		torneo.hacerParticiparACocinero(juan)
+		torneo.hacerParticiparACocinero(julian)
+		
+		assert.equals("julian", torneo.ganador())
+	}
+	
 }
