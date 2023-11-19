@@ -1,4 +1,6 @@
-import catar.*
+import cocineros.*
+import platos.*
+import torneos.*
 
 describe "catar"{
 	
