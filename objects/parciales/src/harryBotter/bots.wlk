@@ -63,6 +63,8 @@ class Hechicero inherits Bot {
 	method lanzarHechizo(hechizo, bot){
 		if(self.puedeLanzarHechizo(hechizo))
 			bot.sufrirConsecuencias(hechizo)
+		else
+			throw new DomainException(message = "No se puede lanzar el hechizo")
 	}
 	
 	method experimentado() = hechizos.size() > 3 && self.cargaElectrica() > 50
