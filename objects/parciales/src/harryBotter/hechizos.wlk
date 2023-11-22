@@ -19,8 +19,7 @@ class Comun inherits Hechizo {
 object inmobilus inherits Hechizo {
 	
 	method hechizar(bot){
-		if(not bot.esProfesor())
-			bot.cargaElectrica(bot.cargaElectrica() - 50)
+		bot.cargaElectrica(bot.cargaElectrica() - 50)
 	}
 	
 }
@@ -39,10 +38,7 @@ object sectumSempra inherits Hechizo {
 object avadakedabra inherits Hechizo {
 	
 	method hechizar(bot){
-		if(bot.esProfesor())
-			bot.cargaElectrica(bot.cargaElectrica() / 2)
-		else
-			bot.cargaElectrica(0)
+		bot.cargaElectrica(0)
 	}
 	
 	override method condiciones(bot) = bot.casa().esPeligrosa() or not bot.aceitePuro()
