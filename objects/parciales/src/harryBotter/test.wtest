@@ -1,0 +1,65 @@
+import bots.*
+import casas.*
+import hechizos.*
+
+describe "Llega un grupo de estudiante a Hogwart y el sombrero bot los distribuye en las casas correspondientes"{
+	
+	const harry = new Estudiante(aceitePuro = true, cargaElectrica = 100, casa = null)
+	const ron = new Estudiante(aceitePuro = true, cargaElectrica = 100, casa = null)
+	
+	test "harry y ron llegan a hogwarts"{
+		sombreroBotSeleccionador.llegaEstudiante(harry)
+		sombreroBotSeleccionador.llegaEstudiante(ron)
+		assert.that(sombreroBotSeleccionador.recienLlegados().contains(harry) && sombreroBotSeleccionador.recienLlegados().contains(ron))
+	}
+	
+	test "harry y ron llegan, y harry es asignado en gryffindor"{
+		sombreroBotSeleccionador.llegaEstudiante(harry)
+		sombreroBotSeleccionador.llegaEstudiante(ron)
+		sombreroBotSeleccionador.distribuir()
+		assert.equals(gryffindor, harry.casa())
+	}
+	
+	test "harry y ron llegan, y ron es asignado en slytherin"{
+		sombreroBotSeleccionador.llegaEstudiante(harry)
+		sombreroBotSeleccionador.llegaEstudiante(ron)
+		sombreroBotSeleccionador.distribuir()
+		assert.equals(slytherin, ron.casa())
+	}
+	
+	test "llegan ron, ron, ron, ron y harry, y  harry es asignado en gryffindor"{
+		sombreroBotSeleccionador.llegaEstudiante(ron)
+		sombreroBotSeleccionador.llegaEstudiante(ron)
+		sombreroBotSeleccionador.llegaEstudiante(ron)
+		sombreroBotSeleccionador.llegaEstudiante(ron)
+		sombreroBotSeleccionador.llegaEstudiante(harry)
+		sombreroBotSeleccionador.distribuir()
+		assert.equals(gryffindor, harry.casa())
+	}
+	
+}
+
+describe "Hacer que un grupo de estudiantes asista a una materia y aprenda el correspondiente hechizo."{
+	
+	const vazko = new Profesor(aceitePuro = true, cargaElectrica = 120, casa = slytherin)
+	const pdep = new Materia(hechizo = sectumSempra, profesor = vazko)
+	const harry = new Estudiante(aceitePuro = true, cargaElectrica = 100, casa = null)
+	const ron = new Estudiante(aceitePuro = true, cargaElectrica = 100, casa = null)
+	
+	test "la materia pdep tiene como profe a vazko"{
+		assert.equals(vazko, pdep.profesor())
+	}
+	
+	test "la materia pdep ensenia el hechizo sectumSempra"{
+		assert.equals(sectumSempra, pdep.hechizo())
+	}
+	
+	test "ron y harry asisten a pdep, harry y ron aprenden sectumSempra"{
+		pdep.nuevoAlumno(ron)
+		pdep.nuevoAlumno(harry)
+		pdep.grupoAsistente()
+		assert.that(harry.hechizos().contains(pdep.hechizo()))
+		assert.that(ron.hechizos().contains(pdep.hechizo()))
+	}
+	
+}

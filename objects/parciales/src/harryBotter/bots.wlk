@@ -25,10 +25,12 @@ class Bot {
 	
 }
 
-class SombreroBotSeleccionador inherits Bot {
+object sombreroBotSeleccionador inherits Bot(aceitePuro = true, cargaElectrica = 100) {
 	
 	const casas = [gryffindor, slytherin, ravenclaw, hufflepuff]
 	const recienLlegados = []
+	
+	method recienLlegados() = recienLlegados //Para los tests
 	
 	method llegaEstudiante(estudiante){
 		recienLlegados.add(estudiante)
@@ -102,6 +104,10 @@ class Materia {
 	var profesor
 	var hechizo
 	const alumnos = []
+	
+	method nuevoAlumno(estudiante){
+		alumnos.add(estudiante)
+	}
 
 	method profesor() = profesor
 	
